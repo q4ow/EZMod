@@ -66,8 +66,6 @@ public class EZMod {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        System.out.println("Loading E-Z Mod...");
-
         screenshotKey = new KeyBinding("Take Screenshot", Keyboard.KEY_F12, "EZMod");
         ClientRegistry.registerKeyBinding(screenshotKey);
 
@@ -95,7 +93,7 @@ public class EZMod {
 
             @Override
             public int getRequiredPermissionLevel() {
-                return 0; // No permission required
+                return 0;
             }
         });
     }
