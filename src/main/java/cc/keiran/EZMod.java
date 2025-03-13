@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
@@ -56,6 +57,8 @@ public class EZMod {
     private static final String PREFIX = "§8[§b§lE-Z§r§8] §r";
 
     public static KeyBinding screenshotKey;
+
+    private Map<String, String> commandAliases;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -96,6 +99,27 @@ public class EZMod {
                 return 0;
             }
         });
+
+        registerCommandAliases();
+    }
+
+    private void registerCommandAliases() {
+        commandAliases = new HashMap<>();
+        commandAliases.put("!f1", "/warp dungeon_hub");
+        commandAliases.put("!f2", "/warp dungeon_hub");
+        commandAliases.put("!f3", "/warp dungeon_hub");
+        commandAliases.put("!f4", "/warp dungeon_hub");
+        commandAliases.put("!f5", "/warp dungeon_hub");
+        commandAliases.put("!f6", "/warp dungeon_hub");
+        commandAliases.put("!f7", "/warp dungeon_hub");
+    }
+
+    @SubscribeEvent
+    public void onChatReceived(ClientChatReceivedEvent event) {
+        String message = event.message.getUnformattedText();
+        if (commandAliases.containsKey(message)) {
+            Minecraft.getMinecraft().thePlayer.sendChatMessage(commandAliases.get(message));
+        }
     }
 
     private void copyToClipboard(String text) {
