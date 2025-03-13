@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "EZMod",
+    "name": "E-Z Mod",
+    "description": "A simple mod for taking and uploading screenshots to e-z.host",
+    "version": "1.0",
+    "mcversion": "1.8.9",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Keiran"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
