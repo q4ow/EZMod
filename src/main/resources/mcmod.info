@@ -3,7 +3,7 @@
     "modid": "EZMod",
     "name": "E-Z Mod",
     "description": "A simple mod for taking and uploading screenshots to e-z.host. Now includes command aliases for Hypixel Skyblock dungeons.",
-    "version": "1.0",
+    "version": "1.0.1",
     "mcversion": "1.8.9",
     "url": "",
     "updateUrl": "",

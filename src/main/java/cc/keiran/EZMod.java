@@ -46,7 +46,7 @@ import java.util.*;
 public class EZMod {
     public static final String MODID = "EZMod";
     public static final String NAME = "E-Z Mod";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.0.1";
     public static final String UPLOAD_API_URL = "https://api.e-z.host/files";
 
     public static Configuration config;
