@@ -408,7 +408,7 @@ public class EZMod {
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream, StandardCharsets.UTF_8))) {
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line != null)) {
                 response.append(line);
             }
         }
