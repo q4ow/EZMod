@@ -1,12 +1,16 @@
-# E-Z Mod
+<h1 align="center">E-Z Mod</h1>
 
 <div align="center">
-  <i>"Screenshot sharing made simple"</i>
+  <p>‎ </p>
+  <p><i>"Screenshot sharing made simple"</i></p>
+  <p>‎ </p>
 </div>
 
-<p align="center" style="margin-top: 25px;">
+<p align="center">
   <img src="https://assets.e-z.gg/e-ztransparent.png" alt="E-Z Logo" width="400">
 </p>
+
+<h3>‎ </h3>
 
 ## Overview
 
