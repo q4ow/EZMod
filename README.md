@@ -114,15 +114,3 @@ If you encounter any issues or have suggestions for improvements:
 ## License
 
 E-Z Mod is released under the MIT License. See the LICENSE file for details.
-
-## Changelog
-
-### v1.1.0
-- Added command alias system for quick access to common commands
-- Improved screenshot upload reliability
-- Enhanced error handling and logging
-
-### v1.0.1
-- Initial public release
-- Screenshot capture and upload functionality
-- Basic configuration options
