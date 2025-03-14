@@ -1,5 +1,6 @@
-package cc.keiran;
+package cc.keiran.config;
 
+import cc.keiran.EZMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -41,7 +42,7 @@ public class EZModGuiFactory implements IModGuiFactory {
             super(
                     parent,
                     getConfigElements(),
-                    EZMod.Constants.MODID,
+                    EZMod.MODID,
                     false,
                     false,
                     "E-Z Mod Configuration"
@@ -101,8 +102,10 @@ public class EZModGuiFactory implements IModGuiFactory {
                 }
             }
 
-            EZMod.config.save();
-            EZMod.syncConfig();
+            if (EZModConfig.getConfig() != null) {
+                EZModConfig.getConfig().save();
+                EZModConfig.syncConfig();
+            }
         }
 
         @Override
@@ -114,11 +117,11 @@ public class EZModGuiFactory implements IModGuiFactory {
         private static List<IConfigElement> getConfigElements() {
             List<IConfigElement> list = new ArrayList<IConfigElement>();
 
-            if (EZMod.config == null) {
+            if (EZModConfig.getConfig() == null) {
                 return list;
             }
 
-            list.addAll(new ConfigElement(EZMod.config.getCategory(Configuration.CATEGORY_GENERAL))
+            list.addAll(new ConfigElement(EZModConfig.getConfig().getCategory(Configuration.CATEGORY_GENERAL))
                     .getChildElements());
 
             return list;
