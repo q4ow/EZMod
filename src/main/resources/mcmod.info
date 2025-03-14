@@ -2,13 +2,13 @@
   {
     "modid": "EZMod",
     "name": "E-Z Mod",
-    "description": "A simple mod for taking and uploading screenshots to e-z.host. Now includes command aliases for Hypixel Skyblock dungeons.",
-    "version": "1.0.1",
+    "description": "A powerful screenshot utility mod for Minecraft that integrates with e-z.host. Features include instant uploads, command aliases for Hypixel Skyblock dungeons, and customizable keybindings.",
+    "version": "1.0.2",
     "mcversion": "1.8.9",
-    "url": "",
-    "updateUrl": "",
+    "url": "https://github.com/q4ow/EZMod",
+    "updateUrl": "https://github.com/q4ow/EZMod/releases",
     "authorList": ["Keiran"],
-    "credits": "",
+    "credits": "E-Z.gg",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []

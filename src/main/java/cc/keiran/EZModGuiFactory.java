@@ -41,7 +41,7 @@ public class EZModGuiFactory implements IModGuiFactory {
             super(
                     parent,
                     getConfigElements(),
-                    EZMod.MODID,
+                    EZMod.Constants.MODID,
                     false,
                     false,
                     "E-Z Mod Configuration"

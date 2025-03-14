@@ -35,27 +35,27 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-@Mod(modid = EZMod.MODID, name = EZMod.NAME, version = EZMod.VERSION,
+@Mod(modid = EZMod.Constants.MODID, name = EZMod.Constants.NAME, version = EZMod.Constants.VERSION,
         guiFactory = "cc.keiran.EZModGuiFactory")
 public class EZMod {
-    public static final String MODID = "EZMod";
-    public static final String NAME = "E-Z Mod";
-    public static final String VERSION = "1.0.1";
-    public static final String UPLOAD_API_URL = "https://api.e-z.host/files";
+    public static final class Constants {
+        public static final String MODID = "EZMod";
+        public static final String NAME = "E-Z Mod";
+        public static final String VERSION = "1.0.2";
+        public static final String UPLOAD_API_URL = "https://api.e-z.host/files";
+        public static final int BUFFER_SIZE = 4096;
+        public static final String DATE_FORMAT = "yyyy-MM-dd_HH.mm.ss";
+        public static final String PREFIX = "§8[§b§lE-Z§r§8] §r";
+    }
 
     public static Configuration config;
     public static String apiKey = "";
-
-    private static final int BUFFER_SIZE = 4096;
-    private static final String DATE_FORMAT = "yyyy-MM-dd_HH.mm.ss";
-    private static final String PREFIX = "§8[§b§lE-Z§r§8] §r";
-
     public static KeyBinding screenshotKey;
 
     private Map<String, String> commandAliases;
@@ -171,7 +171,7 @@ public class EZMod {
 
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.modID.equals(MODID)) {
+        if (event.modID.equals(Constants.MODID)) {
             System.out.println("[E-Z Mod] Config changed event detected, syncing...");
             syncConfig();
         }
@@ -235,7 +235,7 @@ public class EZMod {
     }
 
     private void sendFormattedMessage(String message, EnumChatFormatting color) {
-        IChatComponent component = new ChatComponentText(PREFIX);
+        IChatComponent component = new ChatComponentText(Constants.PREFIX);
         IChatComponent messageComponent = new ChatComponentText(message);
         messageComponent.getChatStyle().setColor(color);
         component.appendSibling(messageComponent);
@@ -328,7 +328,7 @@ public class EZMod {
                 return null;
             }
 
-            String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
+            String timestamp = new SimpleDateFormat(Constants.DATE_FORMAT).format(new Date());
             File outputFile = new File(screenshotDir, "screenshot_" + timestamp + "_" +
                     UUID.randomUUID().toString().substring(0, 6) + ".png");
 
@@ -342,23 +342,19 @@ public class EZMod {
         }
     }
 
-    private Map<String, String> uploadScreenshot(File file) throws IOException {
-        Map<String, String> result = new HashMap<>();
-        String boundary = "===" + System.currentTimeMillis() + "===";
+    private void cleanupConnection(HttpURLConnection connection) {
+        if (connection != null) {
+            try {
+                connection.disconnect();
+            } catch (Exception e) {
+                System.err.println("[E-Z Mod] Error closing connection: " + e.getMessage());
+            }
+        }
+    }
 
-        HttpURLConnection connection = (HttpURLConnection) new URL(UPLOAD_API_URL).openConnection();
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        connection.setRequestProperty("key", apiKey);
-        connection.setRequestProperty("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-
-        System.out.println("[E-Z Mod] Uploading to: " + UPLOAD_API_URL);
-        System.out.println("[E-Z Mod] File size: " + file.length() + " bytes");
-        System.out.println("[E-Z Mod] API Key used: " +
-                (apiKey != null ? apiKey.substring(0, Math.min(5, apiKey.length())) + "..." : "null"));
-
+    private void uploadFile(HttpURLConnection connection, File file) throws IOException {
+        String boundary = connection.getRequestProperty("Content-Type").split("boundary=")[1];
+        
         try (OutputStream outputStream = connection.getOutputStream();
              PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true)) {
 
@@ -369,7 +365,7 @@ public class EZMod {
             writer.flush();
 
             try (FileInputStream inputStream = new FileInputStream(file)) {
-                byte[] buffer = new byte[BUFFER_SIZE];
+                byte[] buffer = new byte[Constants.BUFFER_SIZE];
                 int bytesRead;
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     outputStream.write(buffer, 0, bytesRead);
@@ -380,12 +376,14 @@ public class EZMod {
             writer.append("\r\n").append("--").append(boundary).append("--").append("\r\n");
             writer.flush();
         }
+    }
 
+    private Map<String, String> handleResponse(HttpURLConnection connection) throws IOException {
+        Map<String, String> result = new HashMap<>();
         int responseCode = connection.getResponseCode();
         String responseMessage = connection.getResponseMessage();
 
         System.out.println("[E-Z Mod] Response code: " + responseCode + " " + responseMessage);
-
         logResponseHeaders(connection);
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -408,6 +406,30 @@ public class EZMod {
         return result;
     }
 
+    private Map<String, String> uploadScreenshot(File file) throws IOException {
+        HttpURLConnection connection = null;
+        
+        try {
+            connection = createConnection(file);
+            uploadFile(connection, file);
+            return handleResponse(connection);
+        } finally {
+            cleanupConnection(connection);
+        }
+    }
+
+    private HttpURLConnection createConnection(File file) throws IOException {
+        String boundary = "===" + System.currentTimeMillis() + "===";
+        HttpURLConnection connection = (HttpURLConnection) URI.create(Constants.UPLOAD_API_URL).toURL().openConnection();
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        connection.setRequestProperty("key", apiKey);
+        connection.setRequestProperty("User-Agent",
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+        return connection;
+    }
+
     private void logResponseHeaders(HttpURLConnection connection) {
         System.out.println("[E-Z Mod] Response headers:");
         Map<String, List<String>> responseHeaders = connection.getHeaderFields();
@@ -422,8 +444,8 @@ public class EZMod {
         StringBuilder response = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-            String line = "";
-            while ((line != null)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
         }
