@@ -59,17 +59,19 @@ public class AliasCommand extends CommandBase {
         String logEntry = "[" + timestamp + "] " + message;
         System.out.println("[EZMod Alias Command] " + message);
 
-        // logging
-        // File mcDir = Minecraft.getMinecraft().mcDataDir;
-        // File logsDir = new File(mcDir, "logs");
-        // File logFile = new File(logsDir, "ezmod_aliases.log");
+        /*
+          // logging
+          File mcDir = Minecraft.getMinecraft().mcDataDir;
+          File logsDir = new File(mcDir, "logs");
+          File logFile = new File(logsDir, "ezmod_aliases.log");
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
-            writer.write(logEntry);
-            writer.newLine();
-        } catch (IOException e) {
-            System.err.println("Error writing to alias log file: " + e.getMessage());
-        }
+          try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
+              writer.write(logEntry);
+              writer.newLine();
+          } catch (IOException e) {
+              System.err.println("Error writing to alias log file: " + e.getMessage());
+          }
+        */
     }
 }
 
