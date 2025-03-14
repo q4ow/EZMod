@@ -70,7 +70,7 @@ public class ScreenshotUploader {
 
             String timestamp = new SimpleDateFormat(DATE_FORMAT).format(new Date());
             File outputFile = new File(screenshotDir, "screenshot_" + timestamp + "_" +
-                    UUID.randomUUID().toString().substring(0, 6) + ".png");
+                                       UUID.randomUUID().toString().substring(0, 6) + ".png");
 
             ImageIO.write(image, "png", outputFile);
             return outputFile;
@@ -92,19 +92,19 @@ public class ScreenshotUploader {
         connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
         connection.setRequestProperty("key", apiKey);
         connection.setRequestProperty("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+                                      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 
         System.out.println("[E-Z Mod] Uploading to: " + EZMod.UPLOAD_API_URL);
         System.out.println("[E-Z Mod] File size: " + file.length() + " bytes");
         System.out.println("[E-Z Mod] API Key used: " +
-                (apiKey != null ? apiKey.substring(0, Math.min(5, apiKey.length())) + "..." : "null"));
+                           (apiKey != null ? apiKey.substring(0, Math.min(5, apiKey.length())) + "..." : "null"));
 
         try (OutputStream outputStream = connection.getOutputStream();
-             PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true)) {
+                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true)) {
 
             writer.append("--").append(boundary).append("\r\n");
             writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"")
-                    .append(file.getName()).append("\"\r\n");
+            .append(file.getName()).append("\"\r\n");
             writer.append("Content-Type: image/png\r\n\r\n");
             writer.flush();
 

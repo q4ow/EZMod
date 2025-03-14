@@ -14,11 +14,11 @@ import java.util.Map;
 
 public class ScreenshotManager {
     private final ScreenshotUploader uploader;
-    
+
     public ScreenshotManager() {
         this.uploader = new ScreenshotUploader();
     }
-    
+
     public void takeAndUploadScreenshot() {
         EZModConfig.syncConfig();
         String apiKey = EZModConfig.getApiKey();
@@ -43,8 +43,8 @@ public class ScreenshotManager {
                     ChatUtils.sendSuccessMessage("Screenshot uploaded successfully!");
                     sendFancyUrlBox(imageUrl, rawUrl, deletionUrl);
                 } else {
-                    ChatUtils.sendErrorMessage("File Upload Failed: " + 
-                            response.get("error"));
+                    ChatUtils.sendErrorMessage("File Upload Failed: " +
+                                               response.get("error"));
 
                     if (response.containsKey("errorDetails")) {
                         System.err.println("[E-Z Mod] Error details: " + response.get("errorDetails"));
@@ -64,9 +64,9 @@ public class ScreenshotManager {
         IChatComponent urlLine = new ChatComponentText("§8» §fImage URL: ");
         IChatComponent urlComponent = new ChatComponentText("§b" + imageUrl);
         urlComponent.getChatStyle()
-                .setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imageUrl))
-                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new ChatComponentText("§7Click to open URL")));
+        .setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imageUrl))
+        .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                          new ChatComponentText("§7Click to open URL")));
         urlLine.appendSibling(urlComponent);
         Minecraft.getMinecraft().thePlayer.addChatMessage(urlLine);
 
@@ -74,21 +74,21 @@ public class ScreenshotManager {
 
         IChatComponent copyUrlBtn = new ChatComponentText("§8[§bCopy URL§8]");
         copyUrlBtn.getChatStyle()
-                .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ezmod copyurl " + imageUrl))
-                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new ChatComponentText("§7Click to copy image URL")));
+        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ez copy " + imageUrl))
+        .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                          new ChatComponentText("§7Click to copy image URL")));
 
         IChatComponent copyRawBtn = new ChatComponentText(" §8[§eCopy Raw§8]");
         copyRawBtn.getChatStyle()
-                .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ezmod copyurl " + rawUrl))
-                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new ChatComponentText("§7Click to copy raw URL")));
+        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ez copy " + rawUrl))
+        .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                          new ChatComponentText("§7Click to copy raw URL")));
 
         IChatComponent deleteBtn = new ChatComponentText(" §8[§cDelete§8]");
         deleteBtn.getChatStyle()
-                .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ezmod copyurl " + deletionUrl))
-                .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new ChatComponentText("§7Click to copy deletion URL")));
+        .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/ez copy " + deletionUrl))
+        .setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                          new ChatComponentText("§7Click to copy deletion URL")));
 
         actionsLine.appendSibling(copyUrlBtn).appendSibling(copyRawBtn).appendSibling(deleteBtn);
         Minecraft.getMinecraft().thePlayer.addChatMessage(actionsLine);

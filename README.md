@@ -36,11 +36,19 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
 - **Dungeon Shortcuts**: Quickly navigate to different Hypixel SkyBlock dungeons
 - **Time-Saving**: Reduce typing with intuitive aliases like `!d` for dungeon hub
 
-### ⚙️ Customization
+### 🧰 Utility Commands
 
-- **API Key Configuration**: Securely store your e-z.host API key
-- **Keybinding Options**: Change the screenshot key to suit your preferences
-- **User-Friendly Interface**: Simple configuration menu for all settings
+- **API Key Management**: Set and view your e-z.host API key with simple commands
+- **Clipboard Utility**: Easily copy text to your clipboard
+- **Coordinates**: Display or copy your current coordinates
+- **Server Info**: View detailed information about the current server
+- **SkyBlock Utilities**: Access specialized commands for Hypixel SkyBlock
+
+### 📊 SkyBlock Features
+
+- **Networth Checker**: Check your or another player's SkyBlock networth
+- **Command Aliases**: Quickly navigate various features in SkyBlock
+- **MORE COMING (kinda) SOON!!**
 
 ## Installation
 
@@ -52,9 +60,8 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
 ## Setup
 
 1. Obtain an API key from [e-z.host](https://e-z.host)
-2. In Minecraft, open the mod configuration menu (Main Menu → Mods → E-Z Mod → Config)
-3. Enter your API key in the provided field
-4. Save your configuration
+2. In Minecraft, use the command `/ezmod apikey set <your-api-key>` to save your API key
+3. Verify your API key is set with `/ezmod apikey get`
 
 ## Usage
 
@@ -85,7 +92,11 @@ __More aliases coming soon! Suggestions are welcome, just open an issue.__
 
 ### Commands
 
-- `/ezmod copyurl <url>` - Copies the specified URL to your clipboard
+- `/ezmod apikey <set|get>` - Manage your e-z.host API key
+- `/ezmod copy <text>` - Copy text to your clipboard
+- `/ezmod coords [copy]` - Display or copy your current coordinates
+- `/ezmod server` - Display information about the current server
+- `/ezmod networth [username]` - Check SkyBlock networth for yourself or another player
 
 ## Requirements
 

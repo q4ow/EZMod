@@ -113,18 +113,18 @@ public class CommandAliasHandler {
 
     private void logMessage(String message) {
         boolean loggingEnabled = false;
-
+    
         if (!loggingEnabled) {
             return;
         }
-
+    
         System.out.println("[EZMod Alias] " + message);
-
+    
         if (loggingInitialized && logFile != null) {
             try {
                 String timestamp = DATE_FORMAT.format(new Date());
                 String logEntry = "[" + timestamp + "] " + message;
-
+    
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
                     writer.write(logEntry);
                     writer.newLine();

@@ -18,7 +18,7 @@ public class EZModConfig {
             config = new Configuration(new File(configDir, "EZMod.cfg"));
             syncConfig();
         }
-        
+
         MinecraftForge.EVENT_BUS.register(new EZModConfig());
     }
 
@@ -27,16 +27,16 @@ public class EZModConfig {
             config.load();
 
             Property apiKeyProperty = config.get(
-                    Configuration.CATEGORY_GENERAL,
-                    "apiKey",
-                    "",
-                    "API Key for uploading screenshots to e-z.host"
-            );
+                                          Configuration.CATEGORY_GENERAL,
+                                          "apiKey",
+                                          "",
+                                          "API Key for uploading screenshots to e-z.host"
+                                      );
 
             apiKey = apiKeyProperty.getString();
 
             System.out.println("[E-Z Mod] Config loaded. API Key: " +
-                    (apiKey != null && !apiKey.isEmpty() ? "[REDACTED]" : "not set"));
+                               (apiKey != null && !apiKey.isEmpty() ? "[REDACTED]" : "not set"));
 
             if (config.hasChanged()) {
                 config.save();
@@ -52,6 +52,26 @@ public class EZModConfig {
         return apiKey;
     }
 
+    public static void setApiKey(String newApiKey) {
+        apiKey = newApiKey;
+
+        if (config != null) {
+            Property apiKeyProperty = config.get(
+                                          Configuration.CATEGORY_GENERAL,
+                                          "apiKey",
+                                          "",
+                                          "API Key for uploading screenshots to e-z.host"
+                                      );
+
+            apiKeyProperty.set(newApiKey);
+
+            if (config.hasChanged()) {
+                config.save();
+                System.out.println("[E-Z Mod] Config saved after API key update.");
+            }
+        }
+    }
+
     public static Configuration getConfig() {
         return config;
     }
@@ -64,3 +84,4 @@ public class EZModConfig {
         }
     }
 }
+
