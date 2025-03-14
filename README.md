@@ -1,12 +1,7 @@
+# E-Z Mod
+
 <div align="center">
-  <h1>E-Z Mod</h1>
   <i>"Screenshot sharing made simple"</i>
-</div>
-
-&nbsp;
-
-<div align="center">
-  
 </div>
 
 <p align="center" style="margin-top: 25px;">
@@ -15,7 +10,7 @@
 
 ## Overview
 
-E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your gameplay experience with seamless screenshot sharing capabilities. With a single keypress, capture and upload screenshots directly to [e-z.host](https://e-z.host), a reliable image hosting service.
+E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your gameplay experience with seamless screenshot sharing capabilities and convenient command shortcuts. With a single keypress, capture and upload screenshots directly to [e-z.host](https://e-z.host), a reliable image hosting service.
 
 ## Features
 
@@ -30,6 +25,12 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
 - **Multiple Link Formats**: Get both direct image and raw file links
 - **Easy Copying**: Click buttons in chat to copy links to clipboard
 - **Deletion Control**: Each upload includes a deletion link for when you need it
+
+### ⌨️ Command Aliases
+
+- **Quick Commands**: Use shorthand aliases to execute common commands
+- **Dungeon Shortcuts**: Quickly navigate to different Hypixel SkyBlock dungeons
+- **Time-Saving**: Reduce typing with intuitive aliases like `!d` for dungeon hub
 
 ### ⚙️ Customization
 
@@ -53,6 +54,8 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
 
 ## Usage
 
+### Screenshot Sharing
+
 1. Join any Minecraft world or server
 2. Press F12 (default) to capture and upload a screenshot
 3. Wait for the upload to complete (typically under a second)
@@ -63,7 +66,20 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
    - Copy the raw file URL
    - Copy the deletion URL
 
-## Commands
+### Command Aliases
+
+Type any of these aliases in chat to quickly execute common commands:
+
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `!d` | `/warp dungeon_hub` | Warp to the Dungeon Hub |
+| `!c` | `/collections` | Open your collections menu |
+| `!f1 - !f7` | `/joininstance CATACOMBS_FLOOR_...` | Join Catacombs Floors |
+| `!m1` - `!m7` | `/joininstance MASTER_CATACOMBS_FLOOR_...` | Join Master Mode floors |
+
+__More aliases coming soon! Suggestions are welcome, just open an issue.__
+
+### Commands
 
 - `/ezmod copyurl <url>` - Copies the specified URL to your clipboard
 
@@ -86,6 +102,23 @@ If you encounter any issues or have suggestions for improvements:
 - Open an issue on our [GitHub repository](https://github.com/q4ow/ezmod/issues)
 - Join the E-Z [Discord server](https://discord.gg/ez) for community support related to the service (NOT THE MOD!!)
 
+## Known Issues
+
+- Command aliases may not work consistently on all servers due to variations in chat handling
+- We're actively working to improve alias reliability across different server environments
+
 ## License
 
 E-Z Mod is released under the MIT License. See the LICENSE file for details.
+
+## Changelog
+
+### v1.1.0
+- Added command alias system for quick access to common commands
+- Improved screenshot upload reliability
+- Enhanced error handling and logging
+
+### v1.0.1
+- Initial public release
+- Screenshot capture and upload functionality
+- Basic configuration options
