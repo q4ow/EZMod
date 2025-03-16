@@ -1,11 +1,11 @@
 version = "1.2.0"
 group= "cc.keiran.EZMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "EZMod"
 
 repositories {
     maven {
         name = "forge"
         url = "https://files.minecraftforge.net/maven"
+        allowInsecureProtocol = false
     }
 }
 
