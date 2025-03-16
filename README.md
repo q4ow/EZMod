@@ -52,7 +52,7 @@ E-Z Mod is a lightweight Minecraft Forge utility mod designed to enhance your ga
 
 ## Installation
 
-1. Install [Minecraft Forge](https://files.minecraftforge.net/) for your Minecraft version
+1. Install [Minecraft Forge](https://files.minecraftforge.net/) for Minecraft version 1.21.4
 2. Download the latest E-Z Mod release from [GitHub Releases](https://github.com/q4ow/ezmod/releases)
 3. Place the downloaded `.jar` file in your Minecraft `mods` folder
 4. Launch Minecraft with the Forge profile
@@ -100,9 +100,9 @@ __More aliases coming soon! Suggestions are welcome, just open an issue.__
 
 ## Requirements
 
-- Minecraft 1.8.9
-- Forge 11.15.1.2318 or higher
-- Java 8 or higher
+- Minecraft 1.21.4
+- Forge 54.1.2 or higher
+- Java 23 or higher
 - An internet connection for uploading screenshots
 - A valid e-z.host API key
 
