@@ -1,31 +1,23 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "https://files.minecraftforge.net/maven"
-            allowInsecureProtocol = false
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:5.1+'
-    }
-}
-apply plugin: 'net.minecraftforge.gradle.forge'
-
 version = "1.2.0"
 group= "cc.keiran.EZMod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "EZMod"
 
-minecraft {
-    version = "1.21.4-39.0.0"
-    runDir = "run"
-    mappings = "stable_39"
+repositories {
+    maven {
+        name = "forge"
+        url = "https://files.minecraftforge.net/maven"
+    }
 }
 
 dependencies {
+    implementation 'net.minecraftforge:forge:1.21.4-54.1.2'
     compile 'commons-io:commons-io:2.5'
-    implementation 'net.minecraftforge:forge:1.21.4-39.0.0'
+}
+
+minecraft {
+    version = "1.21.4-54.1.2"
+    runDir = "run"
+    mappings = "stable_39"
 }
 
 processResources {
@@ -42,11 +34,11 @@ processResources {
     }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 23
+targetCompatibility = 23
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 23
+    targetCompatibility = 23
 }
