@@ -7,7 +7,7 @@ import cc.keiran.commands.impl.ServerInfoCommand;
 import cc.keiran.commands.impl.NetworthCommand;
 import cc.keiran.util.ChatUtils;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.HashMap;
@@ -34,12 +34,12 @@ public class EZModCommands extends CommandBase {
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getCommandUsage(CommandSource sender) {
         return "/ez <subcommand> [args...]";
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void processCommand(CommandSource sender, String[] args) {
         if (args.length == 0) {
             showHelp(sender);
             return;
@@ -59,7 +59,7 @@ public class EZModCommands extends CommandBase {
         }
     }
 
-    private void showHelp(ICommandSender sender) {
+    private void showHelp(CommandSource sender) {
         ChatUtils.sendFormattedMessage("=== EZMod Commands ===", EnumChatFormatting.AQUA);
 
         for (ISubCommand cmd : subCommands.values()) {

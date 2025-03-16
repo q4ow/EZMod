@@ -3,7 +3,7 @@ package cc.keiran.commands.impl;
 import cc.keiran.commands.ISubCommand;
 import cc.keiran.util.ChatUtils;
 import cc.keiran.util.ClipboardUtils;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ClipboardCommand implements ISubCommand {
@@ -23,7 +23,7 @@ public class ClipboardCommand implements ISubCommand {
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         if (args.length == 0) {
             ChatUtils.sendFormattedMessage("Usage: " + getUsage(), EnumChatFormatting.RED);
             return;
@@ -41,4 +41,3 @@ public class ClipboardCommand implements ISubCommand {
         ChatUtils.sendFormattedMessage("Text copied to clipboard!", EnumChatFormatting.GREEN);
     }
 }
-

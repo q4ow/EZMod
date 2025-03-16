@@ -2,7 +2,7 @@ package cc.keiran.commands;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,12 +29,12 @@ public class AliasCommand extends CommandBase {
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender) {
+    public String getCommandUsage(CommandSource sender) {
         return "/" + commandName;
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void processCommand(CommandSource sender, String[] args) {
         logMessage("COMMAND EXECUTED: /" + commandName);
         logMessage("SENDING TARGET COMMAND: " + targetCommand);
 
@@ -50,7 +50,7 @@ public class AliasCommand extends CommandBase {
     }
 
     @Override
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    public boolean canCommandSenderUseCommand(CommandSource sender) {
         return true;
     }
 
@@ -74,4 +74,3 @@ public class AliasCommand extends CommandBase {
         */
     }
 }
-

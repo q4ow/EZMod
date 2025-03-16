@@ -4,7 +4,7 @@ import cc.keiran.commands.ISubCommand;
 import cc.keiran.util.ChatUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ServerInfoCommand implements ISubCommand {
@@ -24,7 +24,7 @@ public class ServerInfoCommand implements ISubCommand {
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (mc.isSingleplayer()) {
@@ -76,4 +76,3 @@ public class ServerInfoCommand implements ISubCommand {
         ChatUtils.sendFormattedMessage("Ping: " + pingColor + ping + "ms", EnumChatFormatting.YELLOW);
     }
 }
-

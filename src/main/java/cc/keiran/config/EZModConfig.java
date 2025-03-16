@@ -2,20 +2,19 @@ package cc.keiran.config;
 
 import cc.keiran.EZMod;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.io.File;
 
 public class EZModConfig {
-    private static Configuration config;
+    private static ModConfig config;
     private static String apiKey = "";
 
     public static void init(File configDir) {
         if (config == null) {
-            config = new Configuration(new File(configDir, "EZMod.cfg"));
+            config = new ModConfig(ModConfig.Type.CLIENT, new File(configDir, "EZMod.toml"));
             syncConfig();
         }
 
@@ -26,14 +25,9 @@ public class EZModConfig {
         try {
             config.load();
 
-            Property apiKeyProperty = config.get(
-                                          Configuration.CATEGORY_GENERAL,
-                                          "apiKey",
-                                          "",
-                                          "API Key for uploading screenshots to e-z.host"
-                                      );
+            ModConfig.ConfigValue<String> apiKeyProperty = config.getConfigData().get("apiKey");
 
-            apiKey = apiKeyProperty.getString();
+            apiKey = apiKeyProperty.get();
 
             System.out.println("[E-Z Mod] Config loaded. API Key: " +
                                (apiKey != null && !apiKey.isEmpty() ? "[REDACTED]" : "not set"));
@@ -56,12 +50,7 @@ public class EZModConfig {
         apiKey = newApiKey;
 
         if (config != null) {
-            Property apiKeyProperty = config.get(
-                                          Configuration.CATEGORY_GENERAL,
-                                          "apiKey",
-                                          "",
-                                          "API Key for uploading screenshots to e-z.host"
-                                      );
+            ModConfig.ConfigValue<String> apiKeyProperty = config.getConfigData().get("apiKey");
 
             apiKeyProperty.set(newApiKey);
 
@@ -72,16 +61,15 @@ public class EZModConfig {
         }
     }
 
-    public static Configuration getConfig() {
+    public static ModConfig getConfig() {
         return config;
     }
 
     @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.modID.equals(EZMod.MODID)) {
+    public void onConfigChanged(ModConfigEvent event) {
+        if (event.getConfig().getModId().equals(EZMod.MODID)) {
             System.out.println("[E-Z Mod] Config changed event detected, syncing...");
             syncConfig();
         }
     }
 }
-

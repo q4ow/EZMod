@@ -3,7 +3,7 @@ package cc.keiran.commands.impl;
 import cc.keiran.commands.ISubCommand;
 import cc.keiran.config.EZModConfig;
 import cc.keiran.util.ChatUtils;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.EnumChatFormatting;
 
 public class ApiKeyCommand implements ISubCommand {
@@ -23,7 +23,7 @@ public class ApiKeyCommand implements ISubCommand {
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         if (args.length == 0) {
             ChatUtils.sendFormattedMessage("Usage: " + getUsage(), EnumChatFormatting.YELLOW);
             return;
@@ -58,4 +58,3 @@ public class ApiKeyCommand implements ISubCommand {
         }
     }
 }
-

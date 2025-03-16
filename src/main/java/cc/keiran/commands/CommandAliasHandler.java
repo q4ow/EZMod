@@ -1,8 +1,7 @@
 package cc.keiran.commands;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -77,19 +76,15 @@ public class CommandAliasHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onChatReceived(ClientChatReceivedEvent event) {
+    public void onChatReceived(ServerChatEvent event) {
         if (!loggingInitialized) {
             initLogging();
         }
 
-        if (event.type != 0) {
-            return;
-        }
-
-        String message = event.message.getUnformattedText().trim();
+        String message = event.getMessage().getUnformattedText().trim();
         logMessage("RAW MESSAGE: " + message);
 
-        String playerName = Minecraft.getMinecraft().thePlayer.getName();
+        String playerName = event.getUsername();
         Matcher matcher = CHAT_PATTERN.matcher(message);
         
         // Check if the message matches our pattern and is from the player

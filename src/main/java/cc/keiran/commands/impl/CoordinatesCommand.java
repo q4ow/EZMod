@@ -4,7 +4,7 @@ import cc.keiran.commands.ISubCommand;
 import cc.keiran.util.ChatUtils;
 import cc.keiran.util.ClipboardUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.ICommandSender;
+import net.minecraft.command.CommandSource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,7 +26,7 @@ public class CoordinatesCommand implements ISubCommand {
     }
 
     @Override
-    public void execute(ICommandSender sender, String[] args) {
+    public void execute(CommandSource sender, String[] args) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player == null) {
             ChatUtils.sendFormattedMessage("Player not found", EnumChatFormatting.RED);
@@ -62,4 +62,3 @@ public class CoordinatesCommand implements ISubCommand {
         }
     }
 }
-

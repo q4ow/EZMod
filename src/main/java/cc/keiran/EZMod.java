@@ -7,9 +7,8 @@ import cc.keiran.screenshot.ScreenshotManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -28,13 +27,13 @@ public class EZMod {
     private CommandAliasHandler commandAliasHandler;
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
+    public void preInit(FMLClientSetupEvent event) {
         EZModConfig.init(event.getModConfigurationDirectory());
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLClientSetupEvent event) {
         screenshotKey = new KeyBinding("Take Screenshot", Keyboard.KEY_F12, "EZMod");
         ClientRegistry.registerKeyBinding(screenshotKey);
 
@@ -53,4 +52,3 @@ public class EZMod {
         }
     }
 }
-
