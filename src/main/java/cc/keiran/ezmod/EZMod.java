@@ -54,11 +54,6 @@ public class EZMod {
         event.register(screenshotKey);
     }
 
-    @SubscribeEvent
-    public void onRegisterCommands(RegisterCommandsEvent event) {
-        EZModCommands.register(event.getDispatcher());
-    }
-
     @Mod.EventBusSubscriber(value = Dist.CLIENT)
     public static class ClientEvents {
         @SubscribeEvent

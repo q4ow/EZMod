@@ -33,16 +33,16 @@ public class ScreenshotManager {
 
         try {
             ChatUtils.sendInfoMessage("Taking screenshot...");
-            
+
             // Schedule the screenshot taking on the main render thread
             Minecraft.getInstance().execute(() -> {
                 File screenshot = uploader.takeScreenshot();
-                
+
                 if (screenshot == null) {
                     ChatUtils.sendErrorMessage("Failed to take screenshot.");
                     return;
                 }
-                
+
                 // Upload can happen on a background thread
                 CompletableFuture.supplyAsync(() -> {
                     try {
@@ -56,7 +56,7 @@ public class ScreenshotManager {
                         ChatUtils.sendErrorMessage("Failed to upload screenshot.");
                         return;
                     }
-                    
+
                     if ("true".equals(response.get("success"))) {
                         String imageUrl = response.get("imageUrl");
                         String rawUrl = response.get("rawUrl");
@@ -65,8 +65,8 @@ public class ScreenshotManager {
                         ChatUtils.sendSuccessMessage("Screenshot uploaded successfully!");
                         sendFancyUrlBox(imageUrl, rawUrl, deletionUrl);
                     } else {
-                        ChatUtils.sendErrorMessage("File Upload Failed: " + 
-                                                  response.get("error"));
+                        ChatUtils.sendErrorMessage("File Upload Failed: " +
+                                                   response.get("error"));
 
                         if (response.containsKey("errorDetails")) {
                             System.err.println("[E-Z Mod] Error details: " + response.get("errorDetails"));
@@ -86,37 +86,37 @@ public class ScreenshotManager {
 
     private void sendFancyUrlBox(String imageUrl, String rawUrl, String deletionUrl) {
         Minecraft mc = Minecraft.getInstance();
-        
+
         MutableComponent header = Component.literal("§8§m                                                §r");
         mc.player.displayClientMessage(header, false);
 
         MutableComponent urlLine = Component.literal("§8» §fImage URL: ");
         MutableComponent urlComponent = Component.literal("§b" + imageUrl)
-            .setStyle(Style.EMPTY
-                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imageUrl))
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
-                    Component.literal("§7Click to open URL"))));
+                                        .setStyle(Style.EMPTY
+                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, imageUrl))
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                Component.literal("§7Click to open URL"))));
         mc.player.displayClientMessage(urlLine.append(urlComponent), false);
 
         MutableComponent actionsLine = Component.literal("§8» §fActions: ");
 
         MutableComponent copyUrlBtn = Component.literal("§8[§bCopy URL§8]")
-            .setStyle(Style.EMPTY
-                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, imageUrl))
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
-                    Component.literal("§7Click to copy image URL"))));
+                                      .setStyle(Style.EMPTY
+                                                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, imageUrl))
+                                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                    Component.literal("§7Click to copy image URL"))));
 
         MutableComponent copyRawBtn = Component.literal(" §8[§eCopy Raw§8]")
-            .setStyle(Style.EMPTY
-                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, rawUrl))
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
-                    Component.literal("§7Click to copy raw URL"))));
+                                      .setStyle(Style.EMPTY
+                                                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, rawUrl))
+                                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                    Component.literal("§7Click to copy raw URL"))));
 
         MutableComponent deleteBtn = Component.literal(" §8[§cDelete§8]")
-            .setStyle(Style.EMPTY
-                .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, deletionUrl))
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, 
-                    Component.literal("§7Click to copy deletion URL"))));
+                                     .setStyle(Style.EMPTY
+                                               .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, deletionUrl))
+                                               .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                                   Component.literal("§7Click to copy deletion URL"))));
 
         mc.player.displayClientMessage(actionsLine.append(copyUrlBtn).append(copyRawBtn).append(deleteBtn), false);
 
