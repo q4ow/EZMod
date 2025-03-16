@@ -14,12 +14,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CommandAliasHandler {
     private final Map<String, String> commandAliases;
     private File logFile;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private boolean loggingInitialized = false;
+    
+    // Pattern that matches various chat formats including party, guild, etc.
+    private static final Pattern CHAT_PATTERN = Pattern.compile("(?:.*> )?(\\w+)(?: ☠)?: (.+)");
 
     public CommandAliasHandler() {
         commandAliases = new HashMap<>();
@@ -82,29 +87,43 @@ public class CommandAliasHandler {
         }
 
         String message = event.message.getUnformattedText().trim();
+        logMessage("RAW MESSAGE: " + message);
 
         String playerName = Minecraft.getMinecraft().thePlayer.getName();
-        if (message.contains(playerName + ":")) {
-            logMessage("PLAYER CHAT DETECTED: " + message);
+        Matcher matcher = CHAT_PATTERN.matcher(message);
+        
+        // Check if the message matches our pattern and is from the player
+        if (matcher.find() && matcher.group(1).equals(playerName)) {
+            String chatSender = matcher.group(1);
+            String chatContent = matcher.group(2).trim();
+            
+            logMessage("PLAYER CHAT DETECTED: " + chatSender + " said: " + chatContent);
 
-            int colonIndex = message.indexOf(":");
-            if (colonIndex >= 0 && colonIndex + 1 < message.length()) {
-                String chatContent = message.substring(colonIndex + 1).trim();
-                logMessage("CHAT CONTENT: '" + chatContent + "'");
+            if (commandAliases.containsKey(chatContent)) {
+                logMessage("ALIAS MATCHED: '" + chatContent + "' -> '" + commandAliases.get(chatContent) + "'");
+                
+                // Cancel event FIRST before doing anything else to prevent Hypixel from seeing it
+                event.setCanceled(true);
 
-                if (commandAliases.containsKey(chatContent)) {
-                    logMessage("ALIAS MATCHED: '" + chatContent + "' -> '" + commandAliases.get(chatContent) + "'");
+                String command = commandAliases.get(chatContent);
+                logMessage("EXECUTING COMMAND: " + command);
 
-                    event.setCanceled(true);
-
-                    String command = commandAliases.get(chatContent);
-                    logMessage("EXECUTING COMMAND: " + command);
-
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
-                    logMessage("COMMAND SENT");
-                } else {
-                    logMessage("NO ALIAS MATCHED");
-                }
+                // Use a slight delay to make sure the event cancellation takes effect
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(50);
+                        Minecraft.getMinecraft().addScheduledTask(() -> {
+                            Minecraft.getMinecraft().thePlayer.sendChatMessage(command);
+                            logMessage("COMMAND SENT");
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+                
+                logMessage("EVENT CANCELLED");
+            } else {
+                logMessage("NO ALIAS MATCHED");
             }
 
             logMessage("----------------------------------------");
@@ -112,7 +131,7 @@ public class CommandAliasHandler {
     }
 
     private void logMessage(String message) {
-        boolean loggingEnabled = false;
+        boolean loggingEnabled = true; // Changed to true for debugging
 
         if (!loggingEnabled) {
             return;
@@ -135,4 +154,3 @@ public class CommandAliasHandler {
         }
     }
 }
-
